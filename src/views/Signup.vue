@@ -1,0 +1,40 @@
+<!-- eslint-disable vue/multi-word-component-names -->
+<template>
+  <form @submit.prevent="handleSubmit">
+    <h3>Sign up</h3>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" v-model="email" required />
+
+    <label for="email">Password:</label>
+    <input type="password" name="password" v-model="password" required />
+
+    <button>Sign up</button>
+
+    <div v-if="error">{{ error }}</div>
+  </form>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
+const userStore = useStore();
+const router = useRouter();
+const error = ref(null);
+
+const email = ref("");
+const password = ref("");
+const handleSubmit = async () => {
+  try {
+    await userStore.dispatch("signup", {
+      email: email.value,
+      password: password.value,
+    });
+    router.push("/");
+  } catch (err) {
+    error.value = err.message;
+  }
+};
+</script>
