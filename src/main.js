@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import userStore from "./store/userStore";
+import store from "./store";
 
 import "./assets/main.css";
 
-createApp(App).use(router).use(userStore).mount("#app");
+createApp(App).use(router).use(store).mount("#app");

@@ -7,10 +7,12 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-const userStore = createStore({
+const store = createStore({
   state: {
     user: null,
     authIsReady: false,
+    income: 0,
+    expense: 0,
   },
   mutations: {
     setUser(state, payload) {
@@ -18,6 +20,12 @@ const userStore = createStore({
     },
     setAuthIsReady(state, payload) {
       state.authIsReady = payload;
+    },
+    setIncome(state, payload) {
+      state.income = payload;
+    },
+    setExpense(state, payload) {
+      state.expense = payload;
     },
   },
   actions: {
@@ -41,13 +49,23 @@ const userStore = createStore({
       await signOut(auth);
       context.commit("setUser", null);
     },
+    addIncome(context, payload) {
+      let newAmount = this.state.income;
+      newAmount += payload;
+      context.commit("setIncome", newAmount);
+    },
+    addExpense(context, payload) {
+      let newAmount = this.state.expense;
+      newAmount += payload;
+      context.commit("setExpense", newAmount);
+    },
   },
 });
 
 const unsub = onAuthStateChanged(auth, (user) => {
-  userStore.commit("setAuthIsReady", true);
-  userStore.commit("setUser", user);
+  store.commit("setAuthIsReady", true);
+  store.commit("setUser", user);
   unsub();
 });
 
-export default userStore;
+export default store;

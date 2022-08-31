@@ -20,7 +20,7 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-const userStore = useStore();
+const store = useStore();
 const router = useRouter();
 
 const email = ref("");
@@ -29,7 +29,7 @@ const error = ref(null);
 
 const handleSubmit = async () => {
   try {
-    await userStore.dispatch("login", {
+    await store.dispatch("login", {
       email: email.value,
       password: password.value,
     });
