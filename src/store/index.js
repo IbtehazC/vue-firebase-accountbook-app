@@ -7,12 +7,15 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
+import { v4 as uuidv4 } from "uuid";
+
 const store = createStore({
   state: {
     user: null,
     authIsReady: false,
     income: 0,
     expense: 0,
+    allTransactions: [],
   },
   mutations: {
     setUser(state, payload) {
@@ -26,6 +29,9 @@ const store = createStore({
     },
     setExpense(state, payload) {
       state.expense = payload;
+    },
+    setAllTransaction(state, payload) {
+      state.allTransactions = payload;
     },
   },
   actions: {
@@ -49,15 +55,38 @@ const store = createStore({
       await signOut(auth);
       context.commit("setUser", null);
     },
-    addIncome(context, payload) {
-      let newAmount = this.state.income;
-      newAmount += payload;
-      context.commit("setIncome", newAmount);
+    addTransaction(context, { amount, type, date, category }) {
+      var newTransaction = {
+        id: uuidv4(),
+        amount,
+        type,
+        date,
+        category,
+      };
+      var totalTransactions = this.state.allTransactions;
+      if (type === "income") {
+        addIncome(amount);
+      } else {
+        addExpense(amount);
+      }
+      totalTransactions.push(newTransaction);
+      const sortedTransactions = totalTransactions.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+      context.commit("setAllTransaction", sortedTransactions);
     },
-    addExpense(context, payload) {
-      let newAmount = this.state.expense;
-      newAmount += payload;
-      context.commit("setExpense", newAmount);
+  },
+  getters: {
+    getMonthly(state) {
+      var monthlyTransactions = [];
+      for (var i = 0; i < 12; i++) {
+        monthlyTransactions.push(
+          state.allTransactions.filter((transaction) => {
+            return new Date(transaction.date).getMonth() === i;
+          })
+        );
+      }
+      return monthlyTransactions;
     },
   },
 });
@@ -67,5 +96,17 @@ const unsub = onAuthStateChanged(auth, (user) => {
   store.commit("setUser", user);
   unsub();
 });
+
+const addIncome = (amount) => {
+  let newAmount = store.state.income;
+  newAmount += amount;
+  store.commit("setIncome", newAmount);
+};
+
+const addExpense = (amount) => {
+  let newAmount = store.state.expense;
+  newAmount += amount;
+  store.commit("setExpense", newAmount);
+};
 
 export default store;

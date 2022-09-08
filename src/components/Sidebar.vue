@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="min-h-screen flex flex-row bg-gray-100">
+  <div class="flex flex-row bg-gray-100">
     <div class="flex flex-col w-72 bg-white overflow-hidden">
-      <div class="flex items-center justify-center h-20 shadow-md">
+      <div class="hidden  items-center justify-center h-20 shadow-md">
         <h1 class="text-3xl uppercase text-indigo-500">User</h1>
       </div>
       <ul class="flex flex-col py-4">
