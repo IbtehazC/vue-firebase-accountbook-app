@@ -15,7 +15,36 @@ const store = createStore({
     authIsReady: false,
     income: 0,
     expense: 0,
-    allTransactions: [],
+    allTransactions: [
+      {
+        id: "1",
+        amount: 1000,
+        type: "income",
+        date: "27-02-03",
+        category: "Salary",
+      },
+      {
+        id: "2",
+        amount: 200,
+        type: "expense",
+        date: "27-02-03",
+        category: "Travel",
+      },
+      {
+        id: "3",
+        amount: 175,
+        type: "expense",
+        date: "27-03-04",
+        category: "Passive Income",
+      },
+      {
+        id: "4",
+        amount: 200,
+        type: "income",
+        date: "27-03-04",
+        category: "Transportation",
+      },
+    ],
   },
   mutations: {
     setUser(state, payload) {
@@ -87,6 +116,24 @@ const store = createStore({
         );
       }
       return monthlyTransactions;
+    },
+    getTotalIncome(state) {
+      var totalIncome = 0;
+      state.allTransactions.forEach((transaction) => {
+        if (transaction.type === "income") {
+          totalIncome += transaction.amount;
+        }
+      });
+      return totalIncome;
+    },
+    getTotalExpense(state) {
+      var totalIncome = 0;
+      state.allTransactions.forEach((transaction) => {
+        if (transaction.type === "expense") {
+          totalIncome += transaction.amount;
+        }
+      });
+      return totalIncome;
     },
   },
 });

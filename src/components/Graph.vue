@@ -32,18 +32,18 @@ export default {
     return {
       chartData: {
         labels: [
-          "January",
-          "February",
-          "March",
-          "April",
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
           "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
         ],
         datasets: [
           {
@@ -69,6 +69,42 @@ export default {
       chartOptions: {
         responsive: true,
         aspectRatio: 2 | 2,
+        plugins: {
+          legend: {
+            labels: {
+              color: "white",
+              font: {
+                size: 16,
+              },
+              padding: 8,
+            },
+            align: "end",
+            padding: 24,
+          },
+        },
+        scales: {
+          y: {
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback: function (value) {
+                return "$ " + value;
+              },
+              font: {
+                size: 14,
+              },
+              color: "white",
+            },
+            beginAtZero: true,
+          },
+          x: {
+            ticks: {
+              font: {
+                size: 14,
+              },
+              color: "white",
+            },
+          },
+        },
       },
     };
   },
@@ -119,7 +155,7 @@ export default {
   },
   watch: {
     monthlyTransactions(newBalance, oldBalance) {
-      if (newBalance != oldBalance) { 
+      if (newBalance != oldBalance) {
         this.chartData.datasets[0].data = this.incomeData();
         this.chartData.datasets[1].data = this.expenseData();
       }

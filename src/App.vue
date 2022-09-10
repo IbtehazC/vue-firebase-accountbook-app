@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <div class="flex">
     <Sidebar />
     <RouterView />
@@ -7,9 +6,8 @@
 </template>
 
 <script>
-import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar.vue";
 export default {
-  components: { Navbar, Sidebar },
+  components: {  Sidebar },
 };
 </script>
