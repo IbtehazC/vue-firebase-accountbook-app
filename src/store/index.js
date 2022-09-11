@@ -15,36 +15,7 @@ const store = createStore({
     authIsReady: false,
     income: 0,
     expense: 0,
-    allTransactions: [
-      {
-        id: "1",
-        amount: 1000,
-        type: "income",
-        date: "27-02-03",
-        category: "Salary",
-      },
-      {
-        id: "2",
-        amount: 200,
-        type: "expense",
-        date: "27-02-03",
-        category: "Travel",
-      },
-      {
-        id: "3",
-        amount: 175,
-        type: "expense",
-        date: "27-03-04",
-        category: "Passive Income",
-      },
-      {
-        id: "4",
-        amount: 200,
-        type: "income",
-        date: "27-03-04",
-        category: "Transportation",
-      },
-    ],
+    allTransactions: [],
   },
   mutations: {
     setUser(state, payload) {
